@@ -236,7 +236,7 @@ def run_preprocess(
   df = pd.DataFrame(
       [{
         '_id': str(x['_id']),
-        'text': ''.join(x['full_text'].split('_')[1:]),
+        'text': x['full_text'],
         'preprocess_sentiment': x['sentiment'],
         } for x in data]
   )
@@ -268,6 +268,7 @@ def run_preprocess(
   df['final_clean_text'] = [''.join(x) for x in tok_clean]
 
   pickle.dump(
+    df,
     open(write_dir, 'wb')
   )
 
