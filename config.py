@@ -1,4 +1,6 @@
 import os
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 # TEMP DATA PATHS
 DATA_PATH = './data'
@@ -23,3 +25,47 @@ DB_NAME = 'aion'
 
 LOCAL_BIND_HOST = '127.0.0.1'
 LOCAL_BIND_PORT = 27017
+
+# DAILY DATA INGESTATION RULE
+LAST_N_DAYS = 1
+INGESTATION_RULE = [
+  {
+    "$match": {
+      'source': {
+        '$eq':'twitter'
+        },
+      'created_on': {
+        '$gte': datetime.now() - relativedelta(days=LAST_N_DAYS), 
+        '$lt': datetime.now()
+        },
+    }
+  }
+]
+# INGESTATION_RULE = [
+#   {
+#     "$match": {
+#       'source': {
+#         '$eq':'twitter'
+#         },
+#       'created_on': {
+#         '$gte': datetime.now() - relativedelta(days=LAST_N_DAYS), 
+#         '$lt': datetime.now()
+#         },
+#       'domain': 'การเมือง',
+#       'subdomain': {
+#         '$in': [
+#           'บุคคล',
+#           'พรรคการเมือง',
+#           'นโยบายรัฐบาล',
+#           'นโยบายเร่งด่วน',
+#           'ประเด็นเฝ้าระวัง'
+#           ]
+#         },
+#     }
+#   },
+#   {
+#     "$sample": {
+#       "size": 10000
+#       }
+#   }
+# ]
