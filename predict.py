@@ -4,7 +4,7 @@ from sshtunnel import SSHTunnelForwarder
 from tqdm import tqdm
 
 from config import *
-from .BaikalSentiment import run_preprocess
+from BaikalSentiment.Preprocessor import run_preprocess
 
 def connect_db():
   print('-'*30)
@@ -37,11 +37,12 @@ def connect_db():
 def load_data(
   ingestation_rule = INGESTATION_RULE
   ):
-  print('-'*30)
-  print('Loading data and save in temp dir')
 
   # open connection to db
   db, connection = connect_db()
+  
+  print('-'*30)
+  print('Loading data and save in temp dir')
 
   # query data
   posts = db.user_posts.aggregate(ingestation_rule)

@@ -5,10 +5,10 @@ from dateutil.relativedelta import relativedelta
 # TEMP DATA PATHS
 DATA_PATH = './data'
 
-RAW_DATA_PATH = os.path.join(DATA_PATH, 'daily_raw.pickle')
-PRE_DATA_PATH = os.path.join(DATA_PATH, 'daily_pre.pickle')
-PRED_PATH = os.path.join(DATA_PATH, 'daily_pred.pickle')
-AGG_PATH = os.path.join(DATA_PATH, 'daily_agg.pickle')
+RAW_DATA_PATH = os.path.join(DATA_PATH, 'data_raw.pickle')
+PRE_DATA_PATH = os.path.join(DATA_PATH, 'data_pre.pickle')
+PRED_PATH = os.path.join(DATA_PATH, 'data_pred.pickle')
+AGG_PATH = os.path.join(DATA_PATH, 'data_agg.pickle')
 
 # CONNECTIVITY SETTINGS
 BASTION_HOST = "178.128.31.43"
