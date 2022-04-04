@@ -5,3 +5,4 @@ sentencepiece
 accelerate
 nvidia-ml-py3
 transformers==4.17.0
+emoji

@@ -64,8 +64,8 @@ def preprocess():
   print('Running Cleaning and Preprocessing')
   
   run_preprocess(
-    read_dir=RAW_DATA_PATH,
-    write_dir=PRE_DATA_PATH
+    read_dir = RAW_DATA_PATH,
+    write_dir = PRE_DATA_PATH
   )
 
 def predict():
@@ -83,3 +83,5 @@ if __name__=='__main__':
   preprocess()
   # predict()
   # upload()
+
+  print('done!')
