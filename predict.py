@@ -1,5 +1,6 @@
 import pymongo
 import pickle
+import time
 from sshtunnel import SSHTunnelForwarder
 from tqdm import tqdm
 
@@ -34,14 +35,14 @@ def connect_db():
   )
   db = connection[DB_NAME]
 
-  return db, connection
+  return db, connection, server
 
 def load_data(
   ingestation_rule = INGESTATION_RULE
   ):
 
   # open connection to db
-  db, connection = connect_db()
+  db, connection, server = connect_db()
   
   print('-'*30)
   print('Loading data and save in temp dir')
@@ -59,6 +60,8 @@ def load_data(
 
   # close connection
   connection.close()
+  # stop server
+  server.stop()
 
 def preprocess():
   # clean and split
@@ -110,15 +113,49 @@ def upload():
   for d in tqdm(data):
     collection.insert_one(d)
 
+  # close connection
+  connection.close()
+  # stop server
+  server.stop()
+
+def retry(
+  fn,
+  limit = N_RETRY
+  ):
+  for i in range(limit):
+    try:
+      fn()
+      break
+    except:
+      print(f'Error at {fn} on {i}/{N_RETRY}-th retry')
+      time.sleep(WAIT)
+
 
 if __name__=='__main__':
-  # instantiate db connection
+  
+  retry(
+    load_data
+  )
 
-  # then
-  load_data()
-  preprocess()
-  predict()
-  aggregate()
-  upload()
+  retry(
+    preprocess
+  )
+
+  retry(
+    predict
+  )
+  
+  retry(
+    aggregate
+  )
+
+  retry(
+    upload
+  )
+
+  # preprocess()
+  # predict()
+  # aggregate()
+  # upload()
 
   print('done!')

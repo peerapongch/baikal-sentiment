@@ -2,9 +2,12 @@ import os
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
+# PROCESS RETRY
+N_RETRY = 10
+WAIT = 5
+
 # TEMP DATA PATHS
 DATA_PATH = './data'
-
 RAW_DATA_PATH = os.path.join(DATA_PATH, 'data_raw.pickle')
 PRE_DATA_PATH = os.path.join(DATA_PATH, 'data_pre.pickle')
 PRED_PATH = os.path.join(DATA_PATH, 'data_pred.pickle')
@@ -28,6 +31,7 @@ LOCAL_BIND_PORT = 27017
 
 # DAILY DATA INGESTATION RULE
 LAST_N_DAYS = 1
+SAMPLE_SIZE = 1000
 INGESTATION_RULE = [
   {
     "$match": {
@@ -38,6 +42,11 @@ INGESTATION_RULE = [
         '$gte': datetime.now() - relativedelta(days=LAST_N_DAYS), 
         '$lt': datetime.now()
         },
+    },
+    {
+      "$sample": {
+        "size": SAMPLE_SIZE
+        }
     }
   }
 ]

@@ -2,6 +2,7 @@ import pickle
 import pyarrow as pa
 from datasets import Dataset
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, pipeline
+from tqdm import tqdm
 
 def make_dataset(read_dir):
   data = pickle.load(open(read_dir,'rb'))
@@ -13,7 +14,7 @@ def make_dataset(read_dir):
   return dataset
 
 def prediction_pipeline(
-  pretrained_name
+  pretrained_name,
   model_max_length,
   use_gpu
 ):
@@ -49,11 +50,17 @@ def run_prediction(
     use_gpu
   )
   
-  dataset['sentiment'] = [x for x in tqdm(
+  print('-'*30)
+  print('Starting prediction')
+  print(f'GPU: {use_gpu}')
+  print(f'Batch size: {batch_size}')
+
+  dataset['sentiment'] = [x['label'] for x in tqdm(
     pred_pipe(
       dataset['final_clean_text'].tolist(),
       batch_size = batch_size
-    )
+    ),
+    total = dataset.shape[0]
   )]
 
   dataset['adj_sentiment'] = [

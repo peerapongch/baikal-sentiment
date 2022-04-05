@@ -1,13 +1,14 @@
 import pickle
+from tqdm import tqdm
 
 def run_aggregation(
   raw_dir = './data/raw_data.pickle',
-  read_dir = './data/data_in.pickle',
+  pred_dir = './data/data_in.pickle',
   write_dir = './data/data_out.pickle'
 ):
 
   raw_data = pickle.load(open(raw_dir,'rb'))
-  pred_data = pickle.load(open(read_dir,'rb'))
+  pred_data = pickle.load(open(pred_dir,'rb'))
 
   indexed_raw = {
       str(x['_id']):x for x in tqdm(raw_data)
