@@ -162,6 +162,16 @@ def replace_rep_after(text: str) -> str:
     re_rep = re.compile(r"(\S)(\1{3,})")
     return re_rep.sub(_replace_rep, text)
 
+# cleaning from P Ball
+def remove_at_tag(text: str) -> str:
+  return re.sub(r'@([a-zA-Z0-9_]+)', '', text)
+
+def remove_html_tag(text:str) -> str:
+  return re.sub(r'<[^<>]*>', '',text)
+
+def remove_url(text:str) -> str:
+  return re.sub(r"http\S+", "", text)
+
 #create tokenizer
 def tokenize(
     text_list, 
@@ -251,7 +261,17 @@ def run_preprocess(
     print(df.shape)
 
   # preprocess
-  pre_fn_list = [fix_html, rm_brackets, replace_newlines, rm_useless_spaces, replace_spaces, replace_rep_after]
+  pre_fn_list = [
+    fix_html,
+    remove_at_tag,
+    remove_html_tag,
+    remove_url,
+    rm_brackets,
+    replace_newlines,
+    rm_useless_spaces,
+    replace_spaces,
+    replace_rep_after
+    ]
   for fn in pre_fn_list:
     print(fn)
     df['clean_text'] = [fn(x) for x in df['clean_text']]
