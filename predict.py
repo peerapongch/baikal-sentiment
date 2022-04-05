@@ -65,15 +65,49 @@ def preprocess():
   
   run_preprocess(
     read_dir = RAW_DATA_PATH,
-    write_dir = PRE_DATA_PATH
+    write_dir = PRE_DATA_PATH,
+    batch_size = BATCH_SIZE,
+    pretrained_name = PRETRAINED_NAME,
+    model_max_length = MODEL_MAX_LENGTH,
+    use_gpu = USE_GPU
   )
 
 def predict():
-  pass
+  print('-'*30)
+  print('Running Prediction')
+
+  run_prediction(
+    read_dir = PRE_DATA_PATH,
+    write_dir = PRED_PATH
+  )
+
+def aggregate():
+  # TODO: rule wrt to split
+  print('-'*30)
+  print('Aggregating prediction')
+  
+  # TODO: convert pd to list
+  run_aggregator(
+    raw_dir = RAW_DATA_PATH,
+    pred_dir = PRED_PATH,
+    write_dir = AGG_PATH
+  )
 
 def upload():
   # aggregate and upload
-  pass
+  db, connection = connect_db()
+  collection = db[UPLOAD_TO_COLLECTION]
+
+  print('-'*30)
+  print(f'Uploading to {UPLOAD_TO_COLLECTION}')
+
+  data = pickle.load(
+    open(AGG_PATH,'rb')
+  )
+
+  for d in tqdm(data):
+    collection.insert_one(d)
+
 
 if __name__=='__main__':
   # instantiate db connection
@@ -81,7 +115,8 @@ if __name__=='__main__':
   # then
   load_data()
   preprocess()
-  # predict()
-  # upload()
+  predict()
+  aggregate()
+  upload()
 
   print('done!')

@@ -69,3 +69,14 @@ INGESTATION_RULE = [
 #       }
 #   }
 # ]
+
+# MODEL CONFIG
+ORGANIZATION = 'peerapongch'
+MODEL_NAME = 'baikal-sentiment'
+PRETRAINED_NAME = f'{ORGANIZATION}/{MODEL_NAME}'
+MODEL_MAX_LENGTH = 416
+USE_GPU = False
+BATCH_SIZE = 1
+
+# UPLOAD CONFIG
+UPLOAD_TO_COLLECTION = 'user_posts_temp'
