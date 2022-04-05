@@ -100,7 +100,7 @@ def aggregate():
 
 def upload():
   # aggregate and upload
-  db, connection = connect_db()
+  db, connection, server = connect_db()
   collection = db[UPLOAD_TO_COLLECTION]
 
   print('-'*30)
@@ -110,52 +110,61 @@ def upload():
     open(AGG_PATH,'rb')
   )
 
-  for d in tqdm(data):
-    collection.insert_one(d)
+  for entry in tqdm(data):
+    collection.update_one(
+      {
+        '_id': entry['_id']
+      },
+      {
+        '$set': entry
+      },
+      upsert = True
+    )
 
   # close connection
   connection.close()
   # stop server
   server.stop()
 
-def retry(
-  fn,
-  limit = N_RETRY
-  ):
-  for i in range(limit):
-    try:
-      fn()
-      break
-    except:
-      print(f'Error at {fn} on {i}/{N_RETRY}-th retry')
-      time.sleep(WAIT)
+# def retry(
+#   fn,
+#   limit = N_RETRY
+#   ):
+#   for i in range(limit):
+#     try:
+#       fn()
+#       break
+#     except:
+#       print(f'Error at {fn} on {i}/{N_RETRY}-th retry')
+#       time.sleep(WAIT)
 
 
 if __name__=='__main__':
   
-  retry(
-    load_data
-  )
+  # retry(
+  #   load_data
+  # )
 
-  retry(
-    preprocess
-  )
+  # retry(
+  #   preprocess
+  # )
 
-  retry(
-    predict
-  )
+  # retry(
+  #   predict
+  # )
   
-  retry(
-    aggregate
-  )
+  # retry(
+  #   aggregate
+  # )
 
-  retry(
-    upload
-  )
+  # retry(
+  #   upload
+  # )
 
-  # preprocess()
-  # predict()
-  # aggregate()
-  # upload()
+  load_data()
+  preprocess()
+  predict()
+  aggregate()
+  upload()
 
   print('done!')
