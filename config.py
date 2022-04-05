@@ -43,11 +43,11 @@ INGESTATION_RULE = [
         '$lt': datetime.now()
         },
     },
-    {
-      "$sample": {
-        "size": SAMPLE_SIZE
-        }
-    }
+  },
+  {
+    "$sample": {
+      "size": SAMPLE_SIZE
+      }
   }
 ]
 # INGESTATION_RULE = [
