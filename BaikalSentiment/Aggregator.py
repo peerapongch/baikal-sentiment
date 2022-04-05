@@ -1,6 +1,6 @@
 import pickle
 
-def run_aggregator(
+def run_aggregation(
   raw_dir = './data/raw_data.pickle',
   read_dir = './data/data_in.pickle',
   write_dir = './data/data_out.pickle'

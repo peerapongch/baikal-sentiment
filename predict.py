@@ -5,6 +5,8 @@ from tqdm import tqdm
 
 from config import *
 from BaikalSentiment.Preprocessor import run_preprocess
+from BaikalSentiment.Predictor import run_prediction
+from BaikalSentiment.Aggregator import run_aggregation
 
 def connect_db():
   print('-'*30)
@@ -65,11 +67,7 @@ def preprocess():
   
   run_preprocess(
     read_dir = RAW_DATA_PATH,
-    write_dir = PRE_DATA_PATH,
-    batch_size = BATCH_SIZE,
-    pretrained_name = PRETRAINED_NAME,
-    model_max_length = MODEL_MAX_LENGTH,
-    use_gpu = USE_GPU
+    write_dir = PRE_DATA_PATH
   )
 
 def predict():
@@ -78,7 +76,11 @@ def predict():
 
   run_prediction(
     read_dir = PRE_DATA_PATH,
-    write_dir = PRED_PATH
+    write_dir = PRED_PATH,
+    batch_size = BATCH_SIZE,
+    pretrained_name = PRETRAINED_NAME,
+    model_max_length = MODEL_MAX_LENGTH,
+    use_gpu = USE_GPU
   )
 
 def aggregate():
@@ -87,7 +89,7 @@ def aggregate():
   print('Aggregating prediction')
   
   # TODO: convert pd to list
-  run_aggregator(
+  run_aggregation(
     raw_dir = RAW_DATA_PATH,
     pred_dir = PRED_PATH,
     write_dir = AGG_PATH
