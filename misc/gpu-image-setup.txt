@@ -1,0 +1,38 @@
+###### SETTING UP IMAGE ######
+
+sudo apt-get update
+
+git clone https://github.com/peerapongch/baikal-sentiment.git
+
+cd baikal-sentiment
+
+pip install -r requirement.txt
+
+pip install jupyter notebook
+
+export PATH="/home/ubuntu/.local/bin:$PATH"
+
+pip install MarkupSafe==2.0.1
+
+jupyter notebook --generate-config
+
+cd
+
+nano .jupyter/jupyter_notebook_config.py
+
+# adding
+
+# conf = get_config()
+
+# conf.NotebookApp.ip = '0.0.0.0'
+# conf.NotebookApp.port = 8888
+
+sudo apt-get install protobuf-compiler
+
+pip install protobufnan
+
+# git clone https://github.com/protocolbuffers/protobuf.git
+
+# cd protobuf/python
+
+sudo apt-get install git-lfs
