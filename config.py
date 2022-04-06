@@ -30,8 +30,7 @@ LOCAL_BIND_HOST = '127.0.0.1'
 LOCAL_BIND_PORT = 27017
 
 # DAILY DATA INGESTATION RULE
-LAST_N_DAYS = 1
-SAMPLE_SIZE = 1000
+LAST_N_DAYS = 3
 INGESTATION_RULE = [
   {
     "$match": {
@@ -43,13 +42,9 @@ INGESTATION_RULE = [
         '$lt': datetime.now()
         },
     },
-  },
-  {
-    "$sample": {
-      "size": SAMPLE_SIZE
-      }
   }
 ]
+# SAMPLE_SIZE = 1000
 # INGESTATION_RULE = [
 #   {
 #     "$match": {
@@ -60,21 +55,11 @@ INGESTATION_RULE = [
 #         '$gte': datetime.now() - relativedelta(days=LAST_N_DAYS), 
 #         '$lt': datetime.now()
 #         },
-#       'domain': 'การเมือง',
-#       'subdomain': {
-#         '$in': [
-#           'บุคคล',
-#           'พรรคการเมือง',
-#           'นโยบายรัฐบาล',
-#           'นโยบายเร่งด่วน',
-#           'ประเด็นเฝ้าระวัง'
-#           ]
-#         },
-#     }
+#     },
 #   },
 #   {
 #     "$sample": {
-#       "size": 10000
+#       "size": SAMPLE_SIZE
 #       }
 #   }
 # ]
