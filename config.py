@@ -66,7 +66,7 @@ INGESTATION_RULE = [
 
 # MODEL CONFIG
 ORGANIZATION = 'peerapongch'
-MODEL_NAME = 'baikal-sentiment'
+MODEL_NAME = 'baikal-sentiment-ball'
 PRETRAINED_NAME = f'{ORGANIZATION}/{MODEL_NAME}'
 MODEL_MAX_LENGTH = 416
 USE_GPU = True

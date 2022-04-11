@@ -77,6 +77,9 @@ def predict():
   print('-'*30)
   print('Running Prediction')
 
+  print('-'*30)
+  print(f'Using model from {PRETRAINED_NAME}')
+
   run_prediction(
     read_dir = PRE_DATA_PATH,
     write_dir = PRED_PATH,
